@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell } from 'recharts';
 import './App.css';
 
@@ -69,6 +69,129 @@ const IconExpand = () => (
     <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
   </svg>
 );
+
+// ─── APPEALBENCH LOGO ───
+const AppealBenchLogo = ({ size = 36 }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
+    <defs>
+      <linearGradient id="logoGrad" x1="0" y1="0" x2="48" y2="48">
+        <stop offset="0%" stopColor="#D4A574" />
+        <stop offset="100%" stopColor="#A67C52" />
+      </linearGradient>
+      <linearGradient id="shieldGrad" x1="12" y1="4" x2="36" y2="44">
+        <stop offset="0%" stopColor="#D4A574" stopOpacity="0.2" />
+        <stop offset="100%" stopColor="#A67C52" stopOpacity="0.05" />
+      </linearGradient>
+    </defs>
+    <path d="M24 3L6 10v14c0 11.1 7.7 21.5 18 24 10.3-2.5 18-12.9 18-24V10L24 3z" fill="url(#shieldGrad)" stroke="url(#logoGrad)" strokeWidth="1.5" />
+    <line x1="24" y1="12" x2="24" y2="30" stroke="#D4A574" strokeWidth="2" strokeLinecap="round" />
+    <line x1="14" y1="17" x2="34" y2="17" stroke="#D4A574" strokeWidth="2" strokeLinecap="round" />
+    <path d="M11 19c0 0 1.5 5 3 5s3-5 3-5" stroke="#D4A574" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+    <path d="M31 19c0 0 1.5 5 3 5s3-5 3-5" stroke="#D4A574" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+    <path d="M20 30h8l-1 3H21l-1-3z" fill="#D4A574" opacity="0.7" />
+    <circle cx="15" cy="37" r="1.5" fill="#74B9A5" opacity="0.8" />
+    <circle cx="20" cy="35" r="1.5" fill="#D4A574" opacity="0.8" />
+    <circle cx="25" cy="37" r="1.5" fill="#7494B9" opacity="0.8" />
+    <circle cx="30" cy="34" r="1.5" fill="#B974A5" opacity="0.8" />
+    <circle cx="35" cy="36" r="1.5" fill="#74B9A5" opacity="0.8" />
+    <rect x="14" y="39" width="3" height="2" rx="0.5" fill="#74B9A5" opacity="0.5" />
+    <rect x="19" y="38" width="3" height="3" rx="0.5" fill="#D4A574" opacity="0.5" />
+    <rect x="24" y="39" width="3" height="2" rx="0.5" fill="#7494B9" opacity="0.5" />
+    <rect x="29" y="37" width="3" height="4" rx="0.5" fill="#B974A5" opacity="0.5" />
+    <rect x="34" y="38" width="3" height="3" rx="0.5" fill="#74B9A5" opacity="0.5" />
+  </svg>
+);
+
+// ─── EVALUATION LOADER ───
+const EVAL_PHASES = [
+  "Analyzing medical necessity arguments...",
+  "Reviewing clinical evidence citations...",
+  "Checking plan language references...",
+  "Evaluating legal compliance...",
+  "Assessing denial rebuttal strength...",
+  "Reviewing patient-specific detail...",
+  "Checking structural completeness...",
+  "Calibrating persuasive tone...",
+  "Evaluating actionable clarity...",
+  "Reviewing documentation refs...",
+  "Assessing urgency communication...",
+  "Checking precedent citations...",
+  "Measuring readability...",
+  "Verifying required elements...",
+  "Computing overall effectiveness...",
+];
+
+const METRIC_SHORTS = [
+  'Med. Necessity', 'Clinical Evidence', 'Plan Language', 'Legal/Regulatory', 'Denial Rebuttal',
+  'Patient-Specific', 'Structure', 'Tone', 'Actionable Ask', 'Supporting Docs',
+  'Urgency/Timeline', 'Precedent', 'Readability', 'Required Elements', 'Effectiveness',
+];
+
+function EvaluationLoader() {
+  const [activeMetric, setActiveMetric] = useState(0);
+  const [filledBars, setFilledBars] = useState([]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveMetric(prev => {
+        const next = (prev + 1) % 15;
+        setFilledBars(p => {
+          const nb = [...p];
+          if (!nb.includes(prev)) nb.push(prev);
+          if (nb.length > 8) nb.shift();
+          return nb;
+        });
+        return next;
+      });
+    }, 600);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="eval-loader">
+      <div className="eval-loader-rings">
+        <svg width="140" height="140" viewBox="0 0 140 140" className="eval-ring-outer">
+          <circle cx="70" cy="70" r="64" fill="none" stroke="var(--accent-gold-dim)" strokeWidth="2" />
+          <circle cx="70" cy="70" r="64" fill="none" stroke="var(--accent-gold)" strokeWidth="2" strokeDasharray="40 360" strokeLinecap="round" className="eval-dash" />
+        </svg>
+        <svg width="140" height="140" viewBox="0 0 140 140" className="eval-ring-inner">
+          <circle cx="70" cy="70" r="50" fill="none" stroke="var(--accent-teal-dim)" strokeWidth="1.5" />
+          <circle cx="70" cy="70" r="50" fill="none" stroke="var(--accent-teal)" strokeWidth="1.5" strokeDasharray="30 280" strokeLinecap="round" className="eval-dash-delayed" />
+        </svg>
+        <div className="eval-ring-center">
+          <AppealBenchLogo size={48} />
+        </div>
+        {[0, 1, 2, 3].map(i => (
+          <div key={i} className={`eval-orbit-dot eval-orbit-dot-${i}`} />
+        ))}
+      </div>
+
+      <h3 className="eval-loader-title">Evaluating Appeal Letters</h3>
+      <p className="eval-loader-subtitle">Judge model is scoring 15 metrics across all outputs</p>
+
+      <div className="eval-loader-scanner">
+        <div className="eval-phase-text" key={activeMetric}>{EVAL_PHASES[activeMetric]}</div>
+        <div className="eval-metric-grid">
+          {METRIC_SHORTS.map((label, i) => (
+            <div key={i} className="eval-metric-bar-row">
+              <div className="eval-metric-track">
+                <div
+                  className={`eval-metric-fill ${filledBars.includes(i) ? 'filled' : ''} ${activeMetric === i ? 'active' : ''}`}
+                />
+              </div>
+              <span className={`eval-metric-label ${activeMetric === i ? 'active' : ''} ${filledBars.includes(i) ? 'filled' : ''}`}>
+                {label}
+              </span>
+            </div>
+          ))}
+        </div>
+        <div className="eval-progress-bar">
+          <div className="eval-progress-fill" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // ─── API Key Settings Panel ───
 function ApiKeyPanel({ apiKeys, setApiKeys, useEnvKeys, setUseEnvKeys, isOpen, setIsOpen }) {
@@ -546,6 +669,7 @@ export default function App() {
     if (validOutputs.length < 1) return;
 
     setEvaluating(true);
+    setActiveTab('evaluation');
     try {
       const res = await fetch('/api/evaluate', {
         method: 'POST',
@@ -579,11 +703,7 @@ export default function App() {
       <header className="app-header">
         <div className="header-content">
           <div className="logo">
-            <div className="logo-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-              </svg>
-            </div>
+            <AppealBenchLogo size={38} />
             <div>
               <h1>AppealBench</h1>
               <p className="tagline">LLM Insurance Appeal Comparator</p>
@@ -666,9 +786,9 @@ export default function App() {
               <button
                 className={`tab ${activeTab === 'evaluation' ? 'active' : ''}`}
                 onClick={() => setActiveTab('evaluation')}
-                disabled={!evaluation}
+                disabled={!evaluation && !evaluating}
               >
-                Evaluation {evaluation && '✓'}
+                Evaluation {evaluation ? '✓' : evaluating ? '...' : ''}
               </button>
 
               <div className="tab-spacer" />
@@ -710,7 +830,12 @@ export default function App() {
               </div>
             )}
 
-            {/* Evaluation tab */}
+            {/* Evaluation tab — loading */}
+            {activeTab === 'evaluation' && evaluating && !evaluation && (
+              <EvaluationLoader />
+            )}
+
+            {/* Evaluation tab — results */}
             {activeTab === 'evaluation' && evaluation && (
               <div className="evaluation-content">
                 <div className="eval-top-row">
@@ -727,9 +852,13 @@ export default function App() {
 
       {/* ─── FOOTER ─── */}
       <footer className="app-footer">
-        <p>AppealBench — Open source LLM comparison for insurance appeals</p>
+        <div className="footer-brand">
+          <AppealBenchLogo size={16} />
+          <span>AppealBench — Open source LLM comparison for insurance appeals</span>
+        </div>
         <p className="footer-sub">Not legal or medical advice. Always consult qualified professionals.</p>
       </footer>
     </div>
   );
 }
+
