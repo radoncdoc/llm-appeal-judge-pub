@@ -14,8 +14,10 @@
   --text-secondary: #8a8f9b;
   --text-muted: #5a5f6b;
   --accent-gold: #D4A574;
+  --accent-gold-dim: #D4A57422;
   --accent-green: #2A9D6E;
   --accent-teal: #74B9A5;
+  --accent-teal-dim: #74B9A522;
   --accent-blue: #7494B9;
   --accent-purple: #B974A5;
   --accent-red: #C75050;
@@ -980,3 +982,233 @@ body {
   color: var(--text-secondary) !important;
   font-family: var(--font-body) !important;
 }
+
+/* ─── FOOTER BRAND ─── */
+.footer-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* ─── EVALUATION LOADER ─── */
+.eval-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  animation: fadeIn 0.5s ease;
+}
+
+.eval-loader-rings {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin-bottom: 32px;
+}
+
+.eval-ring-outer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: evalSpin 8s linear infinite;
+}
+
+.eval-ring-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: evalSpin 5s linear infinite reverse;
+}
+
+.eval-ring-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: evalPulse 2s ease-in-out infinite;
+}
+
+.eval-dash {
+  animation: evalDash 2s ease-in-out infinite;
+}
+
+.eval-dash-delayed {
+  animation: evalDash 1.5s ease-in-out infinite 0.5s;
+}
+
+.eval-orbit-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform-origin: 0 0;
+}
+
+.eval-orbit-dot-0 {
+  background: var(--accent-gold);
+  box-shadow: 0 0 8px #D4A57466;
+  animation: evalOrbit 3s linear infinite;
+}
+.eval-orbit-dot-1 {
+  background: var(--accent-teal);
+  box-shadow: 0 0 8px #74B9A566;
+  animation: evalOrbit 3.5s linear infinite 0.4s;
+}
+.eval-orbit-dot-2 {
+  background: var(--accent-blue);
+  box-shadow: 0 0 8px #7494B966;
+  animation: evalOrbit 4s linear infinite 0.8s;
+}
+.eval-orbit-dot-3 {
+  background: var(--accent-purple);
+  box-shadow: 0 0 8px #B974A566;
+  animation: evalOrbit 4.5s linear infinite 1.2s;
+}
+
+.eval-loader-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.eval-loader-subtitle {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+}
+
+.eval-loader-scanner {
+  width: 100%;
+  max-width: 480px;
+}
+
+.eval-phase-text {
+  text-align: center;
+  margin-bottom: 16px;
+  min-height: 24px;
+  font-size: 0.82rem;
+  color: var(--accent-gold);
+  font-weight: 500;
+  animation: evalFadeText 0.6s ease;
+}
+
+.eval-metric-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px 10px;
+}
+
+.eval-metric-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.eval-metric-track {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  overflow: hidden;
+  position: relative;
+}
+
+.eval-metric-fill {
+  height: 100%;
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.4s ease, background 0.3s;
+  background: var(--border);
+}
+
+.eval-metric-fill.active {
+  width: 60%;
+  background: var(--accent-gold);
+  box-shadow: 0 0 6px #D4A57466;
+}
+
+.eval-metric-fill.filled {
+  width: 100%;
+  background: var(--accent-green);
+}
+
+.eval-metric-label {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  min-width: 52px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.3s;
+}
+
+.eval-metric-label.active {
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+.eval-metric-label.filled {
+  color: var(--accent-green);
+}
+
+.eval-progress-bar {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eval-progress-fill {
+  width: 200px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent-gold), var(--accent-teal));
+  animation: evalProgress 4s ease-in-out infinite;
+}
+
+/* ─── EVALUATION LOADER KEYFRAMES ─── */
+@keyframes evalSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes evalPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(1.08); opacity: 0.85; }
+}
+
+@keyframes evalDash {
+  0% { stroke-dasharray: 20 360; }
+  50% { stroke-dasharray: 120 360; }
+  100% { stroke-dasharray: 20 360; }
+}
+
+@keyframes evalOrbit {
+  0% { transform: rotate(0deg) translateX(56px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(56px) rotate(-360deg); }
+}
+
+@keyframes evalProgress {
+  0% { width: 5%; }
+  40% { width: 65%; }
+  70% { width: 80%; }
+  100% { width: 95%; }
+}
+
+@keyframes evalFadeText {
+  0% { opacity: 0; transform: translateY(4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
